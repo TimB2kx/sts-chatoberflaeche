@@ -44,14 +44,28 @@ def main():
     chat_input = st.chat_input("Ihre Nachricht...")
     
     if chat_input:
-        # Webhook aufrufen
+        # Webhook mit korrekter Body-Struktur
         payload = {
-            "chatInput": chat_input,
-            "sessionId": st.session_state.session_id
+            "body": {  # Hinzufügen der "body"-Ebene
+                "chatInput": chat_input,
+                "sessionId": st.session_state.session_id
+            }
         }
         
         try:
-            response = requests.post(WEBHOOK_URL, json=payload)
+            # Füge explizite Headers hinzu
+            headers = {"Content-Type": "application/json"}
+            response = requests.post(
+                WEBHOOK_URL,
+                json=payload,  # Korrektes JSON-Format
+                headers=headers
+            )
+            
+            # Debug-Ausgabe für Response
+            st.write(f"Server Response: {response.status_code}, {response.text}")
+            
+            # Fehlerbehandlung verbessern
+            response.raise_for_status()  # Wirft Exception bei 4xx/5xx
             response_data = response.json()
             
             # Chatverlauf aktualisieren
@@ -68,8 +82,12 @@ def main():
                 "timestamp": "now()"
             }).execute()
             
+        except requests.exceptions.HTTPError as e:
+            st.error(f"Webhook Fehler: {e.response.status_code} - {e.response.text}")
+            return
         except Exception as e:
-            st.error(f"Fehler beim Senden: {str(e)}")
+            st.error(f"Verbindungsfehler: {str(e)}")
+            return
 
     # Chatverlauf anzeigen
     for message in st.session_state.chat_history:
