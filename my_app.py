@@ -6,9 +6,24 @@ from datetime import datetime
 # Initialisiere Supabase-Client
 SUPABASE_URL = "https://aws-supabase-u31663.vm.elestio.app/"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzM3NzI5OTIzLCJleHAiOjIwNTMwODk5MjN9.L-oUAxVZHbi2QzmAy0mgFV9AA0Wql1wLkW1kYUcGmO0"
-WEBHOOK_URL = "https://n8ntb.sts.support/webhook/9ba11544-5c4e-4f91-818a-08a4ecb596c5"
+# Webhook URLs
+WEBHOOK_URL_RUDI = "https://n8ntb.sts.support/webhook/9ba11544-5c4e-4f91-818a-08a4ecb596c5"
+WEBHOOK_URL_TEST = "https://n8ntb.sts.support/webhook/2c474e5f-0350-4bdf-b0c4-dbf73f919659"
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+def start_new_chat():
+    """Startet einen neuen Chat mit aktuellem Zeitstempel"""
+    try:
+        result = supabase.table("conversations").insert({
+            "user_id": st.session_state.session_id,
+            "title": f"Chat vom {datetime.now().strftime('%d.%m.%Y %H:%M')}"
+        }).execute()
+        st.session_state.current_conversation_id = result.data[0]['id']
+        st.session_state.chat_history = []
+        st.rerun()
+    except Exception as e:
+        st.error("Fehler beim Erstellen eines neuen Chats")
 
 def logout():
     """Benutzer ausloggen und Session zurücksetzen"""
@@ -75,15 +90,28 @@ def apply_custom_styles():
             header {visibility: hidden !important;}
             footer {visibility: hidden !important;}
             
-            /* Moderneres Design */
+            /* Moderneres Design mit Taubenblau */
             .stApp {
-                background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+                background: linear-gradient(135deg, rgba(188, 208, 227, 0.3) 0%, rgba(164, 188, 212, 0.4) 100%);
                 font-family: 'Open Sans', sans-serif;
             }
 
             /* Main Content Bereich */
             .main > * {
                 color: #2c3e50 !important;
+            }
+
+            /* Dropdown Styling */
+            .stSelectbox {
+                margin-top: 0 !important;
+            }
+            
+            /* Expander Styling */
+            .streamlit-expanderHeader {
+                background-color: rgba(255, 255, 255, 0.6) !important;
+                border-radius: 5px !important;
+                color: #2c3e50 !important;
+                font-weight: 600 !important;
             }
 
             .st-emotion-cache-r421ms {
@@ -145,21 +173,53 @@ def apply_custom_styles():
                 margin: 0.5rem 0;
             }
 
-            /* Zusätzliche Anpassungen */
+            /* Verbesserte Lesbarkeit für Text-Inputs und Expander */
+            .streamlit-expanderContent {
+                background-color: rgba(255, 255, 255, 0.7) !important;
+                border-radius: 0 0 5px 5px !important;
+                padding: 10px !important;
+            }
+
+            /* Überschriften */
+            h1, h2, h3 {
+                margin-top: 0 !important;
+                padding-top: 0.5rem !important;
+                color: #2c3e50 !important;
+            }
+
+            /* Trennlinien */
+            hr {
+                margin: 0.5rem 0 !important;
+            }
+
+            /* Text-Inputs */
             .stTextInput input {
                 border-radius: 5px;
                 border: 1px solid #e0e0e0;
+                background-color: rgba(255, 255, 255, 0.9) !important;
+                color: #2c3e50 !important;
             }
             .stTextInput input:focus {
                 border-color: #3498db;
                 box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+            }
+
+            /* Login Form Styling */
+            .stForm [data-baseweb="input"] {
+                background-color: rgba(255, 255, 255, 0.9) !important;
+            }
+            .stForm [data-baseweb="input"] input {
+                color: #2c3e50 !important;
+            }
+            .stForm label {
+                color: #2c3e50 !important;
             }
         </style>
     """, unsafe_allow_html=True)
 
 # Streamlit-Konfiguration
 st.set_page_config(
-    page_title="Rudi @ dsmalaga.com",
+    page_title="KI @ dsmalaga.com",
     page_icon="🤖",
     menu_items={},  # Versteckt das Menü
     initial_sidebar_state="expanded"
@@ -175,8 +235,9 @@ def main():
         st.session_state.session_id = None
         st.session_state.chat_history = []
         st.session_state.current_conversation_id = None
+        st.session_state.webhook_selection = "rudi"  # Standard: Rudi Webhook
 
-    st.title("Rudi @ dsmalaga.com")
+    st.title("KI @ dsmalaga.com")
 
     # Zeige Login oder Chat Interface
     if not st.session_state.authenticated:
@@ -199,28 +260,39 @@ def main():
             except Exception as e:
                 st.error("Fehler beim Laden der Chat-Historie")
 
-        # Header-Bereich mit Buttons
-        col1, col2 = st.columns([2, 2])
+        # Header-Bereich mit Buttons - alle in einer Linie
+        st.markdown("### Aktionen")  # Überschrift für den Aktionsbereich
+        col1, col2, col3 = st.columns([1, 1.2, 1])
         with col1:
-            if st.button("Neuer Chat", use_container_width=True):
-                try:
-                    result = supabase.table("conversations").insert({
-                        "user_id": st.session_state.session_id,
-                        "title": f"Chat vom {datetime.now().strftime('%d.%m.%Y %H:%M')}"
-                    }).execute()
-                    st.session_state.current_conversation_id = result.data[0]['id']
-                    st.session_state.chat_history = []
-                    st.rerun()
-                except Exception as e:
-                    st.error("Fehler beim Erstellen eines neuen Chats")
+            if st.button("Neuer Chat", use_container_width=True, key="new_chat_btn"):
+                start_new_chat()
         with col2:
-            if st.button("Abmelden", type="primary", use_container_width=True):
+            # Webhook Auswahl als Dropdown - ohne Label für bessere Ausrichtung
+            prev_webhook = st.session_state.webhook_selection  # Vorherige Auswahl speichern
+            webhook_selection = st.selectbox(
+                "",  # Label entfernt
+                ["Rudi", "Test"],
+                index=0 if st.session_state.webhook_selection == "rudi" else 1,
+                key="webhook_dropdown",
+                label_visibility="collapsed"  # Versteckt das Label vollständig
+            )
+            
+            # Wenn sich die Auswahl ändert, starte einen neuen Chat
+            new_webhook = webhook_selection.lower()
+            if new_webhook != prev_webhook:
+                st.session_state.webhook_selection = new_webhook
+                if st.session_state.authenticated:  # Nur wenn User eingeloggt ist
+                    start_new_chat()
+
+        with col3:
+            if st.button("Abmelden", type="primary", use_container_width=True, key="logout_btn"):
                 logout()
                 return
 
-        # Chat umbenennen
+        # Chat umbenennen - direkt unter den Buttons
+        st.markdown("---")  # Trennlinie
         if st.session_state.get("current_conversation_id"):
-            with st.expander("Chat umbenennen"):
+            with st.expander("Chat umbenennen", expanded=False):
                 new_title = st.text_input("Neuer Name", key="new_chat_title")
                 if st.button("Umbenennen"):
                     try:
@@ -242,9 +314,10 @@ def main():
             }
             
             try:
-                # Webhook-Anfrage
+                # Webhook-Anfrage - URL basierend auf Auswahl
+                webhook_url = WEBHOOK_URL_RUDI if st.session_state.webhook_selection == "rudi" else WEBHOOK_URL_TEST
                 response = requests.post(
-                    WEBHOOK_URL,
+                    webhook_url,
                     json=payload,
                     headers={"Content-Type": "application/json"}
                 )
