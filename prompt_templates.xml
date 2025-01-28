@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompts>
+    <prompt>
+        <title>E-Mail Template</title>
+        <description>Strukturierte Vorlage für E-Mail-Generierung</description>
+        <template># Ziel
+Erstelle eine professionelle E-Mail.
+
+## Kontext
+- Empfänger: [Name/Position]
+- Anlass: [Grund für die E-Mail]
+- Wichtige Punkte: [Hauptpunkte auflisten]
+- Erwartete Aktion: [Was soll der Empfänger tun?]
+- Dringlichkeit: [Zeitrahmen angeben]</template>
+    </prompt>
+    <prompt>
+        <title>Bug Report</title>
+        <description>Detaillierte Vorlage für Fehlermeldungen</description>
+        <template># Ziel
+Dokumentiere einen Software-Fehler präzise.
+
+## Kontext
+- Betroffenes System: [System/Version]
+- Umgebung: [Browser/OS]
+- Schritte zur Reproduktion:
+  1. [Schritt 1]
+  2. [Schritt 2]
+  3. [Schritt 3]
+
+- Erwartetes Verhalten: [Beschreibung]
+- Tatsächliches Verhalten: [Beschreibung]
+- Priorität: [Hoch/Mittel/Niedrig]</template>
+    </prompt>
+    <prompt>
+        <title>Feature Request</title>
+        <description>Strukturierte Vorlage für neue Funktionsanfragen</description>
+        <template># Ziel
+Beschreibe eine neue Funktionalität.
+
+## Kontext
+- Aktuelles Problem: [Was fehlt/funktioniert nicht optimal?]
+- Vorgeschlagene Lösung: [Wie soll die neue Funktion aussehen?]
+- Nutzen: [Welchen Mehrwert bietet die Funktion?]
+- Alternativen: [Welche anderen Lösungen wurden erwogen?]
+- Umsetzungspriorität: [Dringlichkeit angeben]</template>
+    </prompt>
+</prompts>
