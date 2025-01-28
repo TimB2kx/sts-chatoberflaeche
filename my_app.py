@@ -2,6 +2,14 @@ import streamlit as st
 from supabase import create_client, Client
 import requests
 from datetime import datetime
+import xml.etree.ElementTree as ET
+from typing import List, Dict, TypedDict
+
+class PromptTemplate(TypedDict):
+    title: str
+    description: str
+    template: str
+
 
 # Initialisiere Supabase-Client
 SUPABASE_URL = "https://aws-supabase-u31663.vm.elestio.app/"
@@ -83,6 +91,22 @@ def apply_custom_styles():
         <style>
             /* Globale Styles */
             @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+            /* Hauptcontainer-Padding reduzieren */
+            .block-container {
+                padding: 0.5rem !important;
+            }
+
+            /* Container fürs Chat-Eingabefeld fixieren */
+            .chat-input-container {
+                position: fixed !important;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 9999;
+                background-color: white !important;
+                padding: 0.5rem !important;
+            }
             
             /* Verstecke Menü und Deploy Button */
             #MainMenu {visibility: hidden !important;}
@@ -90,15 +114,15 @@ def apply_custom_styles():
             header {visibility: hidden !important;}
             footer {visibility: hidden !important;}
             
-            /* Moderneres Design mit Taubenblau */
+            /* Weißer Hintergrund */
             .stApp {
-                background: linear-gradient(135deg, rgba(188, 208, 227, 0.3) 0%, rgba(164, 188, 212, 0.4) 100%);
+                background: white;
                 font-family: 'Open Sans', sans-serif;
             }
 
             /* Main Content Bereich */
             .main > * {
-                color: #2c3e50 !important;
+                color: black !important;
             }
 
             /* Dropdown Styling */
@@ -107,75 +131,117 @@ def apply_custom_styles():
             }
             
             /* Expander Styling */
-            .streamlit-expanderHeader {
-                background-color: rgba(255, 255, 255, 0.6) !important;
+            div[data-testid="stExpander"] {
+                border: 1px solid black !important;
                 border-radius: 5px !important;
-                color: #2c3e50 !important;
+                margin: 10px 0 !important;
+            }
+
+            .streamlit-expanderHeader {
+                background-color: #f0f0f0 !important;
+                border-radius: 5px !important;
+                color: black !important;
                 font-weight: 600 !important;
+                padding: 10px !important;
+            }
+
+            /* Zusätzliche spezifische Selektoren für den Expander-Text */
+            div[data-testid="stExpander"] span {
+                color: black !important;
+            }
+            
+            div[data-testid="stExpander"] p {
+                color: black !important;
+            }
+
+            .streamlit-expanderHeader:hover {
+                background-color: #e0e0e0 !important;
+            }
+
+            .streamlit-expanderContent {
+                border-top: 1px solid black !important;
+                background-color: white !important;
+            }
+            
+            /* Sidebar Styling */
+            .sidebar .block-container {
+                color: white !important;
+            }
+            
+            /* Sidebar Titel */
+            .sidebar h1, .sidebar h2, .sidebar h3 {
+                color: black !important;
             }
 
             .st-emotion-cache-r421ms {
                 white-space: normal;
-                color: #2c3e50 !important;
+                color: black !important;
             }
             
             /* Titel und Überschriften */
             h1, h2, h3 {
-                color: #2c3e50 !important;
+                color: black !important;
                 font-weight: 600;
             }
 
             /* Chat Messages */
             .st-emotion-cache-1gulkj5 {
-                background-color: rgba(255, 255, 255, 0.9) !important;
+                background-color: white !important;
             }
 
             .st-emotion-cache-1gulkj5 p {
-                color: #2c3e50 !important;
+                color: black !important;
             }
 
             /* Spezifische Chat-Nachrichten Styles */
             .stChatMessage div[data-testid="stMarkdownContainer"] > p {
-                color: #2c3e50 !important;
+                color: black !important;
             }
 
             [data-testid="chatAvatarIcon"] {
-                background-color: #3498db !important;
+                background-color: black !important;
             }
 
             .st-emotion-cache-1c7y2kd {
-                color: #2c3e50 !important;
+                color: black !important;
             }
 
             /* Alle Chat-Message Container */
             [data-testid="stChatMessage"] {
-                background-color: rgba(255, 255, 255, 0.9) !important;
+                background-color: white !important;
             }
             
             /* Buttons */
             .stButton button {
-                background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-                color: white;
-                border: none;
+                background: white !important;
+                color: black !important;
+                border: 1px solid black !important;
                 border-radius: 5px;
                 padding: 0.5rem 1rem;
                 font-weight: 600;
             }
             .stButton button:hover {
-                background: linear-gradient(135deg, #2980b9 0%, #2573a7 100%);
+                background: #f0f0f0 !important;
+            }
+
+            /* Markdown und Text Styling */
+            div[data-testid="stMarkdownContainer"] p,
+            div[data-testid="stMarkdownContainer"] span,
+            div[data-testid="stMarkdownContainer"] strong {
+                color: black !important;
             }
             
             /* Chat-Nachrichten */
             .stChatMessage {
                 background: white;
                 border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                border: 1px solid #ddd;
                 margin: 0.5rem 0;
             }
 
             /* Verbesserte Lesbarkeit für Text-Inputs und Expander */
             .streamlit-expanderContent {
-                background-color: rgba(255, 255, 255, 0.7) !important;
+                background-color: white !important;
                 border-radius: 0 0 5px 5px !important;
                 padding: 10px !important;
             }
@@ -184,7 +250,7 @@ def apply_custom_styles():
             h1, h2, h3 {
                 margin-top: 0 !important;
                 padding-top: 0.5rem !important;
-                color: #2c3e50 !important;
+                color: black !important;
             }
 
             /* Trennlinien */
@@ -195,24 +261,34 @@ def apply_custom_styles():
             /* Text-Inputs */
             .stTextInput input {
                 border-radius: 5px;
-                border: 1px solid #e0e0e0;
-                background-color: rgba(255, 255, 255, 0.9) !important;
-                color: #2c3e50 !important;
+                border: 1px solid #ddd;
+                background-color: white !important;
+                color: black !important;
             }
             .stTextInput input:focus {
-                border-color: #3498db;
-                box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+                border-color: black;
+                box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+            }
+
+            /* Info Message Styling */
+            .stAlert {
+                background-color: #f0f0f0 !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .stAlert p {
+                color: black !important;
             }
 
             /* Login Form Styling */
             .stForm [data-baseweb="input"] {
-                background-color: rgba(255, 255, 255, 0.9) !important;
+                background-color: white !important;
             }
             .stForm [data-baseweb="input"] input {
-                color: #2c3e50 !important;
+                color: black !important;
             }
             .stForm label {
-                color: #2c3e50 !important;
+                color: black !important;
             }
         </style>
     """, unsafe_allow_html=True)
@@ -225,6 +301,26 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+def load_prompt_templates() -> List[PromptTemplate]:
+    """Lädt die Promptvorlagen aus der XML-Datei"""
+    try:
+        tree = ET.parse('prompt_templates.xml')
+        root = tree.getroot()
+        templates = []
+        
+        for prompt in root.findall('.//prompt'):
+            template = PromptTemplate(
+                title=prompt.find('title').text,
+                description=prompt.find('description').text,
+                template=prompt.find('template').text
+            )
+            templates.append(template)
+        
+        return templates
+    except Exception as e:
+        st.error(f"Fehler beim Laden der Promptvorlagen: {str(e)}")
+        return []
+
 def main():
     """Hauptfunktion der Chat-Anwendung"""
     apply_custom_styles()
@@ -236,6 +332,7 @@ def main():
         st.session_state.chat_history = []
         st.session_state.current_conversation_id = None
         st.session_state.webhook_selection = "rudi"  # Standard: Rudi Webhook
+        st.session_state.template_content = None  # Für Promptvorlagen
 
     st.title("KI @ dsmalaga.com")
 
@@ -304,35 +401,55 @@ def main():
                     except Exception as e:
                         st.error("Fehler beim Umbenennen des Chats")
 
-        # Chat-Eingabe
-        chat_input = st.chat_input("Ihre Nachricht...")
-        if chat_input:
-            # Webhook Payload
-            payload = {
-                "chatInput": chat_input,
-                "sessionId": st.session_state.session_id
-            }
-            
-            try:
-                # Webhook-Anfrage - URL basierend auf Auswahl
-                webhook_url = WEBHOOK_URL_RUDI if st.session_state.webhook_selection == "rudi" else WEBHOOK_URL_TEST
-                response = requests.post(
-                    webhook_url,
-                    json=payload,
-                    headers={"Content-Type": "application/json"}
-                )
+        # Chat-Container mit automatischem Scrolling
+        st.markdown("### Chatverlauf")
+        chat_container = st.empty()  # Leerer Container für dynamische Updates
+        
+        # Chat-Verlauf in einem scrollbaren Container anzeigen
+        with chat_container.container():
+            # Wrapper für besseres Scrolling
+            with st.container():
+                if st.session_state.chat_history:
+                    # Nachrichten in umgekehrter Reihenfolge, neueste zuerst
+                    for message in list(reversed(st.session_state.chat_history)):
+                        with st.chat_message("user"):
+                            try:
+                                # Versuche als Markdown zu rendern
+                                st.markdown(message["user"])
+                            except:
+                                # Fallback zu normalem Text
+                                st.write(message["user"])
+                        
+                        with st.chat_message("assistant"):
+                            try:
+                                st.markdown(message["bot"])
+                            except:
+                                st.write(message["bot"])
+                else:
+                    st.info("Noch keine Nachrichten in diesem Chat. Schreiben Sie etwas, um zu beginnen!")
+
+        st.markdown("---")  # Trennlinie
+
+        # Chat-Eingabebereich
+        input_container = st.container()
+        with input_container:
+            st.markdown("### Nachricht eingeben")
+            # Chat-Eingabefeld mit eindeutigem Key und Template-Integration
+            if "current_message" not in st.session_state:
+                st.session_state.current_message = ""
                 
-                response.raise_for_status()
-                response_data = response.json()
-                
-                # Chatverlauf aktualisieren
-                st.session_state.chat_history.append({
-                    "user": chat_input,
-                    "bot": response_data.get("output", "Keine Antwort erhalten")
-                })
-                
-                # In Datenbank speichern
+            message = st.text_area(
+                "Ihre Nachricht...",
+                value=st.session_state.current_message,
+                height=150,  # Erhöhte Höhe für bessere Übersicht
+                key="message_input"
+            )
+            st.session_state.current_message = message
+
+            # Senden-Button
+            if st.button("Senden", type="primary", key="send_button") and message:
                 try:
+                    # Zuerst Conversation erstellen/prüfen
                     if not st.session_state.get("current_conversation_id"):
                         conv_result = supabase.table("conversations").insert({
                             "user_id": st.session_state.session_id,
@@ -340,13 +457,24 @@ def main():
                         }).execute()
                         st.session_state.current_conversation_id = conv_result.data[0]['id']
                     
-                    message_order = len(st.session_state.chat_history)
+                    # Webhook-Anfrage
+                    webhook_url = WEBHOOK_URL_RUDI if st.session_state.webhook_selection == "rudi" else WEBHOOK_URL_TEST
+                    response = requests.post(
+                        webhook_url,
+                        json={"chatInput": message, "sessionId": st.session_state.session_id},
+                        headers={"Content-Type": "application/json"}
+                    )
+                    
+                    response.raise_for_status()
+                    response_data = response.json()
+                    
+                    # Chat in Datenbank speichern
                     supabase.table("chats").insert({
                         "user_id": st.session_state.session_id,
                         "conversation_id": st.session_state.current_conversation_id,
-                        "message": chat_input,
+                        "message": message,
                         "response": response_data.get("output"),
-                        "message_order": message_order,
+                        "message_order": len(st.session_state.chat_history),
                         "timestamp": "now()"
                     }).execute()
 
@@ -355,19 +483,49 @@ def main():
                         "last_updated": "now()"
                     }).eq("id", st.session_state.current_conversation_id).execute()
 
-                except Exception as db_error:
-                    st.warning("Chat-Verlauf konnte nicht gespeichert werden")
-                
-            except requests.exceptions.RequestException as e:
-                st.error("Fehler bei der Kommunikation mit dem Server")
-                return
+                    # Chatverlauf aktualisieren
+                    st.session_state.chat_history.append({
+                        "user": message,
+                        "bot": response_data.get("output", "Keine Antwort erhalten")
+                    })
 
-        # Chatverlauf anzeigen
-        for message in st.session_state.chat_history:
-            with st.chat_message("user"):
-                st.write(message["user"])
-            with st.chat_message("assistant"):
-                st.write(message["bot"])
+                    # Chat-Input und Session State zurücksetzen
+                    st.session_state.current_message = ""
+                    st.rerun()
+
+                except Exception as e:
+                    st.error(f"Fehler: {str(e)}")
+
+        # Promptvorlagen
+        template_container = st.container()
+        with template_container:
+            st.markdown("### Promptvorlagen")
+            templates = load_prompt_templates()
+            if templates:
+                # Container für bessere Ausrichtung
+                with st.container():
+                    # Erste Zeile für Auswahl und Button
+                    col1, col2 = st.columns([4, 1])
+                    with col1:
+                        template_options = ["Vorlage auswählen..."] + [f"{t['title']}" for t in templates]
+                        selected_index = st.selectbox(
+                            "",  # Label entfernt für bessere Ausrichtung
+                            range(len(template_options)),
+                            format_func=lambda x: template_options[x],
+                            key="template_selector",
+                            label_visibility="collapsed"
+                        )
+                    
+                    with col2:
+                        insert_disabled = selected_index == 0
+                        if st.button("Einfügen", key="insert_template", disabled=insert_disabled):
+                            st.session_state.current_message = templates[selected_index-1]['template']
+                            st.rerun()
+                    
+                    # Zweite Zeile für Beschreibung
+                    if selected_index > 0:
+                        st.markdown(f"**Beschreibung:** {templates[selected_index-1]['description']}")
+
 
 if __name__ == "__main__":
     main()
