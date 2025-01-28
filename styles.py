@@ -5,9 +5,20 @@ def apply_custom_styles():
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
             
-            .main .block-container {
-                padding-top: 0 !important;
-                padding-bottom: 20rem !important;
+            /* Allgemeiner Block Container */
+            .block-container {
+                padding-top: 1rem !important;
+                padding-bottom: 4rem !important;
+            }
+
+            /* Streamlit spezifische Container */
+            div[class*="stMainBlockContainer"],
+            div[data-testid="stDecoration"],
+            div[data-testid="stToolbar"],
+            .main .block-container,
+            .st-emotion-cache-yw8pof {
+                padding-top: 1rem !important;
+                padding-bottom: 4rem !important;
             }
             
             .stApp {
