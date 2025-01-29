@@ -2,7 +2,13 @@ import streamlit as st
 import requests
 from datetime import datetime
 from database import save_chat_message
-from config import WEBHOOK_URL_RUDI, WEBHOOK_URL_TEST
+from config import (
+    WEBHOOK_URL_RUDI,
+    WEBHOOK_URL_PERPLEXITY,
+    WEBHOOK_URL_CHATGPT,
+    WEBHOOK_URL_MISTRAL,
+    WEBHOOK_URL_DEEPSEEK
+)
 
 def render_chat_history() -> None:
     """Rendert den Chat-Verlauf"""
@@ -49,7 +55,17 @@ def handle_message_send(message: str) -> None:
             st.session_state.current_conversation_id = None
             
         # Webhook URL basierend auf Auswahl
-        webhook_url = WEBHOOK_URL_RUDI if st.session_state.webhook_selection == "rudi" else WEBHOOK_URL_TEST
+        webhook_selection = st.session_state.webhook_selection.lower()
+        if webhook_selection == "rudi":
+            webhook_url = WEBHOOK_URL_RUDI
+        elif webhook_selection == "perplexity ai suche":
+            webhook_url = WEBHOOK_URL_PERPLEXITY
+        elif webhook_selection == "openai chatgpt 4o":
+            webhook_url = WEBHOOK_URL_CHATGPT
+        elif webhook_selection == "mistral (dsgvo konform)":
+            webhook_url = WEBHOOK_URL_MISTRAL
+        else:  # DeepSeek R1 Resoner
+            webhook_url = WEBHOOK_URL_DEEPSEEK
         
         # Webhook-Anfrage senden
         response = requests.post(
