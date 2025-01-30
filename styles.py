@@ -48,6 +48,12 @@ def apply_custom_styles():
                 padding-bottom: 0 !important;
             }
             
+            /* Sidebar Heading Text Color - More specific rule */
+            [data-testid="stSidebar"] .stMarkdown h1,
+            [data-testid="stSidebar"] h1 {
+                color: white !important;
+            }
+            
             /* Reduziere den Abstand des Trennstrichs */
             .main .block-container hr {
                 margin-top: 0.5rem !important;
@@ -417,12 +423,6 @@ def apply_custom_styles():
             .streamlit-expanderContent {
                 background-color: white !important;
                 padding: 10px !important;
-            }
-            
-            /* Reduziere den Abstand des Trennstrichs */
-            .main .block-container hr {
-                margin-top: 0.5rem !important;
-                margin-bottom: 0.5rem !important;
             }
             
             /* Nur Tooltips ausblenden, Dropdowns beibehalten */
