@@ -99,6 +99,38 @@ def apply_custom_styles():
                 font-weight: 600;
             }
             
+            /* Button hover styles */
+            div.stButton > button:hover {
+                color: var(--text-color) !important;
+                background-color: var(--primary-color) !important;
+            }
+            
+            /* Button-Hover-Styles */
+            button[data-testid="baseButton-secondary"]:hover,
+            button[data-testid="baseButton-primary"]:hover {
+                background-color: var(--primary-color) !important;
+                color: white !important;
+            }
+            
+            /* Tooltip-Button-Hover */
+            div[class*="stTooltipIcon"] button[data-testid="baseButton-secondary"]:hover,
+            div[class*="stTooltipIcon"] button[data-testid="baseButton-primary"]:hover {
+                background-color: var(--primary-color) !important;
+                color: white !important;
+            }
+            
+            /* Streamlit Button Hover Fix */
+            button[kind="secondary"]:hover {
+                color: white !important;
+            }
+            
+            /* Alternative Selektoren */
+            .st-emotion-cache-upseer button:hover,
+            .st-emotion-cache-6dnr6u button:hover {
+                color: white !important;
+                background-color: rgb(49, 51, 63) !important;
+            }
+            
             /* Sidebar spezifische Styles */
             [data-testid="stSidebar"] .stButton button {
                 padding: 0.3rem !important;
@@ -150,6 +182,7 @@ def apply_custom_styles():
             button[data-testid="baseButton-secondary"].st-key-new_chat_btn:hover {
                 background: #cce5ff !important;
                 border-color: #0066cc !important;
+                color: white !important;
             }
             
             /* Logout Button */
@@ -161,6 +194,7 @@ def apply_custom_styles():
             button[data-testid="baseButton-secondary"].st-key-logout_btn:hover {
                 background: #ffdddd !important;
                 border-color: #ff0000 !important;
+                color: white !important;
             }
             
             /* Entferne doppelte Borders bei Dropdowns */
@@ -207,21 +241,71 @@ def apply_custom_styles():
                 caret-color: black !important;
             }
 
+            /* Chat Input Styling */
+            .stTextArea textarea {
+                padding: 10px 15px !important;
+                font-size: 16px !important;
+                resize: none !important;
+                background-color: white !important;
+                border: 1px solid #e0e0e0 !important;
+            }
+            
+            /* Send Button Styling */
+            button[data-testid="baseButton-primary"] {
+                border-radius: 50% !important;
+                padding: 0.5rem !important;
+                min-height: 40px !important;
+                width: 40px !important;
+                transition: all 0.2s ease !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+            }
+            
+            button[data-testid="baseButton-primary"]:hover {
+                transform: scale(1.05) !important;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.15) !important;
+                color: white !important;
+            }
+            
+            /* Fix black corners */
+            .stTextArea div[data-baseweb="textarea"] {
+                background-color: transparent !important;
+                overflow: hidden !important;
+            }
+            
+            /* Fix sidebar spacing */
+            .stVerticalBlock {
+                gap: 0.5rem !important;
+            }
+            
+            /* Remove padding from columns */
+            div[data-testid="column"] {
+                padding: 0 !important;
+            }
+            
+            /* Ensure full width for text area */
+            .stTextArea {
+                width: 100% !important;
+            }
+            
             /* Hover-Effekte für spezifische Buttons */
             button[kind="secondary"][data-testid="baseButton-secondary"].st-key-new_chat_btn:hover {
                 background: #cce5ff !important;
+                color: white !important;
             }
             
             button[data-testid="baseButton-secondary"][class*="st-key-conv_"]:hover {
                 background: #e2e6ea !important;
+                color: white !important;
             }
             
             button[data-testid="baseButton-secondary"][class*="st-key-del_"]:hover {
                 background: #ffdddd !important;
+                color: white !important;
             }
             
             button[kind="primary"][data-testid="baseButton-primary"].st-key-send_button:hover {
                 background: #218838 !important;
+                color: white !important;
             }
             
             .stChatMessage {
@@ -240,7 +324,7 @@ def apply_custom_styles():
             .stTextArea textarea {
                 color: black !important;
                 background: white !important;
-                border: 1px solid #ddd !important;
+                
             }
             
             /* Selectbox Styling */
@@ -323,6 +407,27 @@ def apply_custom_styles():
                 background-color: white !important;
                 padding: 10px !important;
             }
+            
+            /* Reduziere den Abstand des Trennstrichs */
+            .main .block-container hr {
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            /* Nur Tooltips ausblenden, Dropdowns beibehalten */
+            .stTooltipIcon {
+                display: none !important;
+            }
+            
+            .stMarkdownContainer [data-testid="stTooltipHoverTarget"],
+            .element-container [data-testid="stTooltipHoverTarget"] {
+                visibility: hidden !important;
+            }
+            
+            div[data-baseweb="tooltip"] {
+                display: none !important;
+            }
+            
         </style>
         
         <script>
