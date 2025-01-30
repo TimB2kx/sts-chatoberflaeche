@@ -17,7 +17,7 @@ def load_prompt_templates() -> List[PromptTemplate]:
             template = PromptTemplate(
                 title=prompt.find('title').text,
                 description=prompt.find('description').text,
-                template=prompt.find('template').text
+                template=prompt.find('template').text.strip()  # Strip whitespace from template
             )
             templates.append(template)
         return templates
@@ -43,7 +43,8 @@ def render_template_selector(templates: List[PromptTemplate]) -> None:
             with col2:
                 insert_disabled = selected_index == 0
                 if st.button("Einfügen", key="insert_template", disabled=insert_disabled):
-                    st.session_state.current_message = templates[selected_index-1]['template']
+                    # Strip any extra whitespace when inserting the template
+                    st.session_state.current_message = templates[selected_index-1]['template'].strip()
                     st.rerun()
             
             if selected_index > 0:
