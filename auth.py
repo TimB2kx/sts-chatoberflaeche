@@ -8,15 +8,15 @@ def show_login():
         password = st.text_input("Passwort", type="password")
         if st.form_submit_button("Anmelden"):
             try:
-                user = supabase.auth.sign_in_with_password({
+                response = supabase.auth.sign_in_with_password({
                     "email": email,
                     "password": password
                 })
                 st.session_state.authenticated = True
-                st.session_state.session_id = user.user.id
+                st.session_state.session_id = response.user.id
                 st.rerun()
             except Exception as e:
-                st.error("Anmeldung fehlgeschlagen")
+                st.error(f"Anmeldung fehlgeschlagen: {str(e)}")
 
 def logout():
     """Meldet den Benutzer ab und setzt die Session zurück"""

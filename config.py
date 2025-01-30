@@ -12,4 +12,4 @@ WEBHOOK_URL_MISTRAL = "https://n8ntb.sts.support/webhook/a6940db2-b459-488f-ab7a
 WEBHOOK_URL_DEEPSEEK = "https://n8ntb.sts.support/webhook/754e182c-25e0-4056-afa9-0bc8552ff977"
 
 # Supabase Client initialisieren
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
