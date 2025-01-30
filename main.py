@@ -8,7 +8,7 @@ from templates import load_prompt_templates, render_template_selector
 
 # Theme customization
 st.set_page_config(
-    page_title="STS Support Chat",
+    page_title="KI @ dsmalaga.com",
     page_icon="💬",
     layout="wide",
     initial_sidebar_state="expanded",
