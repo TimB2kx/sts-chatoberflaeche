@@ -375,6 +375,17 @@ def apply_custom_styles():
                 background-color: white !important;
             }
             
+            /* Sidebar Input Field Styles */
+            [data-testid="stSidebar"] .stTextInput input {
+                background-color: white !important;
+                color: black !important;
+            }
+            
+            /* Sidebar Input Label Styles */
+            [data-testid="stSidebar"] .stTextInput label p {
+                color: white !important;
+            }
+            
             ::-webkit-scrollbar {
                 width: 8px;
             }
