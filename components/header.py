@@ -5,11 +5,11 @@ from auth import logout
 def render_header() -> None:
     """Rendert den Header-Bereich mit Aktionsbuttons"""
     st.markdown("### Aktionen")
-    col1, col2, col3 = st.columns([1, 1.2, 1])
+    col1, col2, col3 = st.columns([0.3, 3, 0.3])
     
     # Neuer Chat Button
     with col1:
-        if st.button("Neuer Chat", use_container_width=True, key="new_chat_btn"):
+        if st.button("✚", help="Neuer Chat", key="new_chat_btn"):
             new_chat_id = start_new_chat()
             st.session_state.current_conversation_id = new_chat_id
             st.session_state.chat_history = []
@@ -43,5 +43,6 @@ def render_header() -> None:
     
     # Abmelden Button
     with col3:
-        if st.button("Abmelden", type="primary", use_container_width=True, key="logout_btn"):
+        if st.button("⏻", help="Abmelden", key="logout_btn"):
             logout()
+            st.rerun()

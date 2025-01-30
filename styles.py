@@ -27,6 +27,33 @@ def apply_custom_styles():
                 color: black !important;
             }
             
+            /* Reduziere Abstände zwischen den Hauptelementen */
+            .main .block-container {
+                padding-top: 0.5rem !important;
+                gap: 0.5rem !important;
+            }
+            
+            /* Reduziere den Abstand nach dem Titel */
+            .main .block-container > div:first-child {
+                margin-bottom: 0.5rem !important;
+            }
+            
+            /* Reduziere den Abstand der Überschriften */
+            .main .block-container h1,
+            .main .block-container h2,
+            .main .block-container h3 {
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
+            
+            /* Reduziere den Abstand des Trennstrichs */
+            .main .block-container hr {
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
             /* Ensure all text elements are black */
             .stMarkdown, p, h1, h2, h3, h4, h5, h6, span, div {
                 color: black !important;
@@ -62,6 +89,7 @@ def apply_custom_styles():
                 overflow-y: auto;
             }
             
+            /* Standard Button Style */
             .stButton button {
                 background: white !important;
                 color: black !important;
@@ -71,28 +99,73 @@ def apply_custom_styles():
                 font-weight: 600;
             }
             
-            /* Header Buttons */
-            button[kind="secondary"][data-testid="baseButton-secondary"].st-key-new_chat_btn {
+            /* Sidebar spezifische Styles */
+            [data-testid="stSidebar"] .stButton button {
+                padding: 0.3rem !important;
+            }
+            
+            /* Chat Title Button in Sidebar */
+            [data-testid="stSidebar"] button[data-testid="baseButton-secondary"][class*="st-key-conv_"] {
+                text-align: left !important;
+                background: #f8f9fa !important;
+                padding: 0.5rem 1rem !important;
+            }
+            
+            /* Action Buttons in Sidebar (Edit & Delete) */
+            [data-testid="stSidebar"] button[data-testid="baseButton-secondary"][class*="st-key-edit_"],
+            [data-testid="stSidebar"] button[data-testid="baseButton-secondary"][class*="st-key-del_"] {
+                padding: 0.2rem 0.5rem !important;
+                min-width: 32px !important;
+                height: 32px !important;
+                line-height: 1 !important;
+            }
+            
+            /* Header Icon Buttons */
+            button[data-testid="baseButton-secondary"].st-key-new_chat_btn,
+            button[data-testid="baseButton-secondary"].st-key-logout_btn {
+                min-width: 34px !important;
+                width: 34px !important;
+                height: 34px !important;
+                padding: 0 !important;
+                font-size: 1.2rem !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            /* Header Columns */
+            [data-testid="column"]:first-child > div,
+            [data-testid="column"]:last-child > div {
+                padding: 0 !important;
+                display: flex !important;
+                justify-content: center !important;
+            }
+            
+            /* Neuer Chat Button */
+            button[data-testid="baseButton-secondary"].st-key-new_chat_btn {
                 background: #e6f3ff !important;
                 border-color: #0066cc !important;
             }
+
+            button[data-testid="baseButton-secondary"].st-key-new_chat_btn:hover {
+                background: #cce5ff !important;
+                border-color: #0066cc !important;
+            }
             
-            button[kind="primary"][data-testid="baseButton-primary"].st-key-logout_btn {
-                background: #ff4444 !important;
-                color: white !important;
+            /* Logout Button */
+            button[data-testid="baseButton-secondary"].st-key-logout_btn {
+                background: #ffeeee !important;
                 border-color: #cc0000 !important;
             }
-            
-            /* Sidebar Buttons */
-            button[data-testid="baseButton-secondary"][class*="st-key-conv_"] {
-                text-align: left !important;
-                background: #f8f9fa !important;
+
+            button[data-testid="baseButton-secondary"].st-key-logout_btn:hover {
+                background: #ffdddd !important;
+                border-color: #ff0000 !important;
             }
             
-            button[data-testid="baseButton-secondary"][class*="st-key-del_"] {
-                padding: 0.25rem !important;
-                min-width: 40px !important;
-                background: #ffeeee !important;
+            /* Entferne doppelte Borders bei Dropdowns */
+            .st-bj, .st-bk, .st-bm {
+                border: none !important;
             }
             
             /* Chat Input Button */
@@ -102,17 +175,44 @@ def apply_custom_styles():
                 border-color: #1e7e34 !important;
             }
             
-            .stButton button:hover {
-                background: #f0f0f0 !important;
+            /* Template Selector */
+            .stSelectbox div[data-baseweb="select"] {
+                background: white;
+                border-radius: 5px;
+                border: 1px solid black !important;
+            }
+            
+            /* Chat Container Styles */
+            .chat-message {
+                padding: 1.5rem;
+                border-radius: 0.5rem;
+                margin-bottom: 1rem;
+                position: relative;
+            }
+            
+            .user-message {
+                background: #f8f9fa;
+                border-left: 5px solid #0066cc;
+            }
+            
+            .bot-message {
+                background: #ffffff;
+                border-left: 5px solid #28a745;
+                border: 1px solid #e9ecef;
+            }
+            
+            /* Sidebar Layout Adjustments */
+            [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+                gap: 0.5rem !important;
+            }
+            
+            [data-testid="stSidebar"] .row-widget {
+                margin-bottom: 0.3rem !important;
             }
             
             /* Hover-Effekte für spezifische Buttons */
             button[kind="secondary"][data-testid="baseButton-secondary"].st-key-new_chat_btn:hover {
                 background: #cce5ff !important;
-            }
-            
-            button[kind="primary"][data-testid="baseButton-primary"].st-key-logout_btn:hover {
-                background: #cc0000 !important;
             }
             
             button[data-testid="baseButton-secondary"][class*="st-key-conv_"]:hover {
