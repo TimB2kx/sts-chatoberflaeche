@@ -51,7 +51,7 @@ Kernfunktionalitäten:
 - Python 3.11.2
 - Debian 12 Server
 - Supabase-Datenbank
-- Streamlit 1.27.0
+- Streamlit 1.27.2
 
 ## Installation auf Debian 12 Server
 
