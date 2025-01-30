@@ -200,16 +200,13 @@ def apply_custom_styles():
                 border-left: 5px solid #28a745;
                 border: 1px solid #e9ecef;
             }
-            
-            /* Sidebar Layout Adjustments */
-            [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-                gap: 0.5rem !important;
+
+            /* Chat Input Styles */
+            textarea[aria-label="Ihre Nachricht..."] {
+                min-height: 300px !important;
+                caret-color: black !important;
             }
-            
-            [data-testid="stSidebar"] .row-widget {
-                margin-bottom: 0.3rem !important;
-            }
-            
+
             /* Hover-Effekte für spezifische Buttons */
             button[kind="secondary"][data-testid="baseButton-secondary"].st-key-new_chat_btn:hover {
                 background: #cce5ff !important;
