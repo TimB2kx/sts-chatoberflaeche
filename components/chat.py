@@ -112,12 +112,11 @@ def handle_message_send(message: str, send_button: bool) -> None:
         # Wenn eine Nachricht gesendet wurde und der Button geklickt wurde
         if send_button and message:
             # Webhook URL basierend auf Auswahl
-            if "rudi (internes wissen ds malaga)" in webhook_selection:
+            webhook_selection = webhook_selection.lower()
+            if webhook_selection == "rudi (internes wissen ds malaga)":
                 webhook_url = WEBHOOK_URL_RUDI
-            elif webhook_selection == "perplexity ai suche":
+            elif webhook_selection == "perplexity pro ai suche":
                 webhook_url = WEBHOOK_URL_PERPLEXITY
-            elif webhook_selection == "openai chatgpt 4o":
-                webhook_url = WEBHOOK_URL_CHATGPT
             elif webhook_selection == "mistral (dsgvo konform)":
                 webhook_url = WEBHOOK_URL_MISTRAL
             elif webhook_selection == "gemini 2.0 flash":
@@ -126,7 +125,7 @@ def handle_message_send(message: str, send_button: bool) -> None:
                 webhook_url = WEBHOOK_URL_GEMINI_THINKING
             elif webhook_selection == "anthropic claude 3.5":
                 webhook_url = WEBHOOK_URL_CLAUDE
-            else:  # DeepSeek R1 Reasoner
+            else:  # DeepSeek R1 Reasoner/ Thinking (langsam)
                 webhook_url = WEBHOOK_URL_DEEPSEEK
             
             # Custom headers for the request

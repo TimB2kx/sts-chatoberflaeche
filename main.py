@@ -2,9 +2,17 @@ import streamlit as st
 from auth import show_login, init_session_state, is_authenticated
 from styles import apply_custom_styles
 from components.header import render_header
-from components.sidebar import render_sidebar, render_chat_rename
+from components.sidebar import render_sidebar
 from components.chat import render_chat_history, render_chat_input
 from templates import load_prompt_templates, render_template_selector
+
+# Theme customization
+st.set_page_config(
+    page_title="STS Support Chat",
+    page_icon="💬",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
 def main():
     """Hauptfunktion der Streamlit App"""
@@ -31,9 +39,6 @@ def main():
         render_header()
         
         st.markdown("---")
-        
-        # Chat umbenennen Option
-        render_chat_rename()
         
         # Chat-Verlauf
         st.markdown("### Chatverlauf")

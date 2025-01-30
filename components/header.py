@@ -20,18 +20,20 @@ def render_header() -> None:
         prev_webhook = st.session_state.webhook_selection
         webhook_selection = st.selectbox(
             "",
-            ["Rudi (internes Wissen DS Malaga)", "Perplexity AI Suche", "OpenAI ChatGPT 4o",
-             "Mistral (DSGVO konform)", "DeepSeek R1 Reasoner", "Gemini 2.0 Flash",
-             "Gemini 2.0 Thinking", "Anthropic Claude 3.5"],
-            index=(0 if st.session_state.webhook_selection == "rudi"
-                  else 1 if st.session_state.webhook_selection == "perplexity ai suche"
-                  else 2 if st.session_state.webhook_selection == "openai chatgpt 4o"
-                  else 3 if st.session_state.webhook_selection == "mistral (dsgvo konform)"
-                  else 4 if st.session_state.webhook_selection == "deepseek r1 reasoner"
-                  else 5 if st.session_state.webhook_selection == "gemini 2.0 flash"
-                  else 6 if st.session_state.webhook_selection == "gemini 2.0 thinking"
-                  else 7 if st.session_state.webhook_selection == "anthropic claude 3.5"
-                  else 4),
+            ["Rudi (internes Wissen DS Malaga)", 
+             "Perplexity Pro AI Suche",
+             "Mistral (DSGVO konform)", 
+             "Gemini 2.0 Flash",
+             "Gemini 2.0 Thinking",
+             "Anthropic Claude 3.5",
+             "DeepSeek R1 Reasoner/ Thinking (langsam)"],
+            index=(0 if st.session_state.webhook_selection == "rudi (internes wissen ds malaga)"
+                  else 1 if st.session_state.webhook_selection == "perplexity pro ai suche"
+                  else 2 if st.session_state.webhook_selection == "mistral (dsgvo konform)"
+                  else 3 if st.session_state.webhook_selection == "gemini 2.0 flash"
+                  else 4 if st.session_state.webhook_selection == "gemini 2.0 thinking"
+                  else 5 if st.session_state.webhook_selection == "anthropic claude 3.5"
+                  else 6),
             key="webhook_dropdown",
             label_visibility="collapsed"
         )
