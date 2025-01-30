@@ -1,47 +1,411 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <prompts>
+<!-- 1. Übersetzungsprofi DE↔ES -->
     <prompt>
-        <title>E-Mail Template</title>
-        <description>Strukturierte Vorlage für E-Mail-Generierung</description>
-        <template># Ziel
-Erstelle eine professionelle E-Mail.
+        <title>Übersetzungsprofi DE↔ES</title>
+        <description>Liefert präzise, flüssige Übersetzungen zwischen Deutsch und Spanisch bei hoher Texttreue</description>
+        <template>
+# Ziel
+Übersetze den folgenden Text detailgenau und dennoch flüssig von Deutsch nach Spanisch oder umgekehrt.
 
 ## Kontext
-- Empfänger: [Name/Position]
-- Anlass: [Grund für die E-Mail]
-- Wichtige Punkte: [Hauptpunkte auflisten]
-- Erwartete Aktion: [Was soll der Empfänger tun?]
-- Dringlichkeit: [Zeitrahmen angeben]</template>
+- Ausgangstext: [Füge den zu übersetzenden Text hier ein]
+- Zielgruppe: [Formell / Informell? Eltern, Kollegen, offizielle Stellen?]
+- Besonderheiten: Achte auf kulturelle Nuancen, Höflichkeitsformen und fachliche Begriffe.
+
+## Ablauf
+1. Lies den Quelltext aufmerksam durch.
+2. Identifiziere kulturelle oder sprachliche Feinheiten.
+3. Übersetze originalgetreu, passe aber Redewendungen an, wenn nötig.
+4. Behalte Ton und Stil des Originaltextes so weit wie möglich bei.
+
+## Ergebnis
+- Vollständige Übersetzung
+- Ggf. kurze Erklärungen für Begriffe ohne direkte Entsprechung
+        </template>
     </prompt>
+
+    <!-- 2. Text-Optimierer | Text-Korrektor | Text-Verfeinerer -->
     <prompt>
-        <title>Bug Report</title>
-        <description>Detaillierte Vorlage für Fehlermeldungen</description>
-        <template># Ziel
-Dokumentiere einen Software-Fehler präzise.
+        <title>Text-Optimierer | Text-Korrektor | Text-Verfeinerer</title>
+        <description>Analysiert und optimiert Texte unter Beibehaltung des ursprünglichen Inhalts</description>
+        <template>
+# Ziel
+Verbessere Rechtschreibung, Grammatik und Ausdruck, ohne den Sinn zu verändern.
 
 ## Kontext
-- Betroffenes System: [System/Version]
-- Umgebung: [Browser/OS]
-- Schritte zur Reproduktion:
-  1. [Schritt 1]
-  2. [Schritt 2]
-  3. [Schritt 3]
+- Originaltext: [Füge deinen Text hier ein]
+- Stil: [Neutral, informell, formell?]
+- Fokus: Nur notwendige Änderungen vornehmen
 
-- Erwartetes Verhalten: [Beschreibung]
-- Tatsächliches Verhalten: [Beschreibung]
-- Priorität: [Hoch/Mittel/Niedrig]</template>
+## Ablauf
+1. Prüfe den Text auf Rechtschreib- und Grammatikfehler.
+2. Optimiere Satzbau und Wortwahl bei Bedarf.
+3. Erhalte den korrigierten Text.
+4. Füge eine Liste der Änderungen bei.
+
+## Ergebnis
+1. Optimierte Textversion
+2. Stichpunktartige Auflistung aller vorgenommenen Korrekturen
+        </template>
     </prompt>
+
+    <!-- 3. Elternkommunikations-Assistent -->
     <prompt>
-        <title>Feature Request</title>
-        <description>Strukturierte Vorlage für neue Funktionsanfragen</description>
-        <template># Ziel
-Beschreibe eine neue Funktionalität.
+        <title>Elternkommunikations-Assistent</title>
+        <description>Erstellt und optimiert Elternbriefe oder Rundschreiben mit angemessener Tonalität und pädagogischem Feingefühl</description>
+        <template>
+# Ziel
+Formuliere eine klare und ansprechende Mitteilung für Eltern.
 
 ## Kontext
-- Aktuelles Problem: [Was fehlt/funktioniert nicht optimal?]
-- Vorgeschlagene Lösung: [Wie soll die neue Funktion aussehen?]
-- Nutzen: [Welchen Mehrwert bietet die Funktion?]
-- Alternativen: [Welche anderen Lösungen wurden erwogen?]
-- Umsetzungspriorität: [Dringlichkeit angeben]</template>
+- Thema: [Welche Informationen sollen übermittelt werden?]
+- Ziel: [Eltern informieren, einladen, erinnern?]
+- Tonalität: Wertschätzend, professionell, gut verständlich
+
+## Ablauf
+1. Stelle kurz das Anliegen vor.
+2. Erkläre den Hintergrund/die Relevanz.
+3. Nenne konkrete Informationen oder Termine.
+4. Achte auf höfliche, respektvolle Ansprache.
+
+## Ergebnis
+- Fertiger, freundlicher Elternbrief/Rundschreiben
+- Optional: Kurze Hinweise zu möglichen Rückfragen
+        </template>
+    </prompt>
+
+    <!-- 4. Zusammenfassungsexperte -->
+    <prompt>
+        <title>Zusammenfassungsexperte</title>
+        <description>Extrahiert prägnante Kernaussagen und praktische Empfehlungen aus einem Text</description>
+        <template>
+# Ziel
+Kompakte, leicht verständliche Zusammenfassung mit den wichtigsten Handlungsempfehlungen.
+
+## Kontext
+- Quelltext: [Füge den ausführlichen Text hier ein]
+- Ziel: Rasches Erfassen von Hauptaussagen und impliziten Tipps
+
+## Ablauf
+1. Lies den gesamten Text.
+2. Identifiziere relevante Punkte und Empfehlungen.
+3. Strukturiere sie in knappen Stichpunkten oder kurzen Absätzen.
+
+## Ergebnis
+- Zusammenfassung der Kerninhalte
+- Übersichtliche Liste konkreter Empfehlungen
+        </template>
+    </prompt>
+
+    <!-- 5. Offizielle-Schreiben-Formatierung -->
+    <prompt>
+        <title>Offizielle-Schreiben-Formatierung</title>
+        <description>Stellt sicher, dass offizielle Briefe alle formalen Normen und Strukturen einhalten</description>
+        <template>
+# Ziel
+Erstelle oder optimiere ein offizielles Schreiben nach geltenden Standards.
+
+## Kontext
+- Anlass: [z.B. Bewerbung, Behördenbrief, formelle Kommunikation]
+- Empfänger: [Name, Institution, Abteilung]
+- Layoutwünsche: [Briefkopf, Betreffzeile, Anrede, Grußformel]
+
+## Ablauf
+1. Formuliere den Betreff kurz und aussagekräftig.
+2. Verwende eine passende Anrede und einen höflichen Schreibstil.
+3. Strukturiere den Hauptteil übersichtlich.
+4. Schließe mit Grußformel und Signatur.
+
+## Ergebnis
+- Korrekt formatiertes Schreiben inklusive Anrede und Schlussformel
+- Optional: Empfehlungen für Layout oder Schriftart
+        </template>
+    </prompt>
+
+    <!-- 6. Zusammenfassungs-Experte Meetings -->
+    <prompt>
+        <title>Zusammenfassungs-Experte Meetings</title>
+        <description>Erstellt kompakte Zusammenfassungen von Besprechungen und dokumentiert To-dos</description>
+        <template>
+# Ziel
+Fasse wichtige Punkte einer Konferenz oder Team-Besprechung zusammen.
+
+## Kontext
+- Datum und Teilnehmer: [Wann fand die Besprechung statt? Wer war anwesend?]
+- Hauptthemen: [Liste der diskutierten Punkte]
+- Entscheidungen: [Beschlüsse? Verantwortlichkeiten?]
+
+## Ablauf
+1. Gib einen kurzen Überblick über die Meeting-Inhalte.
+2. Notiere wichtige Argumente und Ergebnisse.
+3. Liste alle To-dos mit Verantwortlichen und Terminen auf.
+
+## Ergebnis
+- Prägnante Meeting-Zusammenfassung
+- Klare To-do-Liste zur Nachverfolgung
+        </template>
+    </prompt>
+
+    <!-- 7. Protokoll-Assistent -->
+    <prompt>
+        <title>Protokoll-Assistent</title>
+        <description>Strukturiert Gesprächsinhalte oder Meetings in professionellen Protokollen</description>
+        <template>
+# Ziel
+Erstelle ein verständliches, gut strukturiertes Protokoll.
+
+## Kontext
+- Art des Gesprächs: [Meeting, Interview, Konferenz]
+- Teilnehmer: [Namen und Rollen]
+- Hauptpunkte: [Themen, Beschlüsse, offene Fragen]
+
+## Ablauf
+1. Erfasse Datum, Uhrzeit und Teilnehmende.
+2. Gliedere die Gesprächsinhalte in Themenblöcke.
+3. Notiere wichtige Beiträge, Ergebnisse und Beschlüsse.
+4. Halte Verantwortlichkeiten und Fristen fest.
+
+## Ergebnis
+- Umfassendes, klar gegliedertes Protokoll
+- Übersicht der beschlossenen Maßnahmen und offenen Punkte
+        </template>
+    </prompt>
+
+    <!-- 8. Prompt-Optimierungsassistent -->
+    <prompt>
+        <title>Prompt-Optimierungsassistent</title>
+        <description>Analysiert und verbessert eingegebene KI-Prompts für bessere Ergebnisse</description>
+        <template>
+# Ziel
+Optimiere einen bestehenden Prompt nach Best Practices.
+
+## Kontext
+- Ausgangsprompt: [Füge hier den aktuellen Prompt ein]
+- Problem: [Was soll verbessert werden? Zu unklar, zu lang, zu wenig strukturiert?]
+
+## Ablauf
+1. Untersuche Ziel, Tonalität und Aufbau des Prompts.
+2. Füge klare Anweisungen und Struktur hinzu.
+3. Kürze unnötige Teile und fokussiere auf gewünschtes Ergebnis.
+
+## Ergebnis
+- Überarbeiteter Prompt mit präzisen Formulierungen
+- Optional: Hinweise, warum bestimmte Änderungen vorgenommen wurden
+        </template>
+    </prompt>
+
+    <!-- 9. Social-Media-Post-Entwürfe -->
+    <prompt>
+        <title>Social-Media-Post-Entwürfe</title>
+        <description>Erstellt kurze, ansprechende Beiträge für verschiedene Kanäle unter Berücksichtigung der Zielgruppe</description>
+        <template>
+# Ziel
+Entwirf einen kurzen, aufmerksamkeitsstarken Social-Media-Post.
+
+## Kontext
+- Plattform: [Instagram, Facebook, Twitter etc.]
+- Zielgruppe: [Eltern, Schüler, Alumni, allgemeine Öffentlichkeit]
+- Schulprofil: [Besondere Werte, Alleinstellungsmerkmale]
+
+## Ablauf
+1. Formuliere eine einleitende Zeile, die Neugier weckt.
+2. Erwähne relevante Infos oder Aktionen.
+3. Schließe mit einer klaren Handlungsaufforderung (Call-to-Action).
+
+## Ergebnis
+- Fertiger Post-Entwurf mit passender Tonalität und Stil
+- Ggf. Hashtag-Vorschläge oder Tagging
+        </template>
+    </prompt>
+
+    <!-- 10. Website-Inhalt-Verbesserer -->
+    <prompt>
+        <title>Website-Inhalt-Verbesserer</title>
+        <description>Überarbeitet und aktualisiert Webseitentexte für bessere Lesbarkeit und SEO-Freundlichkeit</description>
+        <template>
+# Ziel
+Verbessere Textabschnitte auf einer Webseite, um sie klar, ansprechend und suchmaschinenfreundlich zu gestalten.
+
+## Kontext
+- Aktuelle Webseite: [URL oder Textauszug]
+- Ziel: [Bessere Struktur, SEO-Optimierung, Leserlichkeit]
+
+## Ablauf
+1. Prüfe Textaufbau und Relevanz der Inhalte.
+2. Passe Überschriften, Absätze und Keywords an.
+3. Achte auf klare Sprache und logischen Lesefluss.
+
+## Ergebnis
+- Überarbeiteter Webseitentext in optimierter Form
+- Kurze Notizen zu SEO-Strategie und möglichen Keywords
+        </template>
+    </prompt>
+
+    <!-- 11. Marketing-Text-Generator -->
+    <prompt>
+        <title>Marketing-Text-Generator</title>
+        <description>Erstellt professionelle, prägnante Flyer-, Broschüren- und Werbetexte</description>
+        <template>
+# Ziel
+Formuliere kurze, wirkungsvolle Texte, die das Schulangebot attraktiv darstellen.
+
+## Kontext
+- Werbeformat: [Flyer, Broschüre, Anzeige]
+- Zielgruppe: [Eltern, Sponsoren, Öffentlichkeit]
+- Kernbotschaft: [Was soll hervorgehoben werden?]
+
+## Ablauf
+1. Identifiziere die wichtigsten Vorteile/Leistungen.
+2. Nutze eine klare, werbewirksame Sprache.
+3. Baue einen ansprechenden Call-to-Action ein.
+
+## Ergebnis
+- Fertiger Textentwurf mit klarem Nutzenargument
+- Zusätzliche Ideen für Schlagwörter oder Slogans
+        </template>
+    </prompt>
+
+    <!-- 12. E-Mail-Experte -->
+    <prompt>
+        <title>E-Mail-Experte</title>
+        <description>Erstellt präzise, zielgerichtete E-Mails für professionelle Kommunikation</description>
+        <template>
+# Ziel
+Verfasse eine klare, gut strukturierte E-Mail zu einem bestimmten Anliegen.
+
+## Kontext
+- Zweck: [Information, Anfrage, Einladung etc.]
+- Empfänger: [Kollegen, Eltern, externe Partner?]
+- Ton: [Formal, halbformell, freundschaftlich?]
+
+## Ablauf
+1. Fasse den Anlass in einer kurzen Betreffzeile zusammen.
+2. Formuliere eine höfliche Anrede.
+3. Erkläre dein Anliegen in knappen Sätzen.
+4. Schließe mit einer klaren Handlungsaufforderung oder einem Dank.
+
+## Ergebnis
+- Strukturiertes E-Mail-Skelett
+- Optional: Vorschlag für Signatur oder Anhang
+        </template>
+    </prompt>
+
+    <!-- 13. Zusammenfassungsexperte Allgemein -->
+    <prompt>
+        <title>Zusammenfassungsexperte Allgemein</title>
+        <description>Extrahiert die wichtigsten Punkte aus beliebigen Texten und betont praktische Empfehlungen</description>
+        <template>
+# Ziel
+Erstelle eine kurze, informative Zusammenfassung, die auch implizite Hinweise enthält.
+
+## Kontext
+- Quelltext: [Ausführliches Dokument, Artikel, Buchkapitel etc.]
+- Relevanz: [Warum soll zusammengefasst werden? Zeitersparnis, Überblick?]
+
+## Ablauf
+1. Lies den Text aufmerksam und selektiere die Kernaussagen.
+2. Liste praktische Tipps und Empfehlungen.
+3. Erwähne wichtige Zusammenhänge oder Konsequenzen.
+
+## Ergebnis
+- Knappe Zusammenfassung
+- Übersichtliche Darstellung konkreter Empfehlungen
+        </template>
+    </prompt>
+
+    <!-- 14. Terminplanungs-Assistent -->
+    <prompt>
+        <title>Terminplanungs-Assistent</title>
+        <description>Hilft bei der Organisation von Meetings und Veranstaltungen</description>
+        <template>
+# Ziel
+Plane und koordiniere einen oder mehrere Termine effizient.
+
+## Kontext
+- Anlass: [Meeting, Elternsprechtag, Schulveranstaltung]
+- Teilnehmer und Verfügbarkeiten: [Liste der Beteiligten mit Terminoptionen]
+- Ort/Format: [Vor Ort, online, hybrides Format]
+
+## Ablauf
+1. Sammle mögliche Zeitfenster.
+2. Prüfe Überschneidungen und bestmögliche Option.
+3. Formuliere eine Einladungs-/Bestätigungsnachricht.
+
+## Ergebnis
+- Vorgeschlagener Termin mit Datum, Uhrzeit, Ort/Link
+- Übersichtliche To-dos für alle Beteiligten
+        </template>
+    </prompt>
+
+    <!-- 15. Verfahrensanweisungs-Ersteller -->
+    <prompt>
+        <title>Verfahrensanweisungs-Ersteller</title>
+        <description>Erstellt und aktualisiert Schritt-für-Schritt-Anleitungen für interne Prozesse</description>
+        <template>
+# Ziel
+Formuliere klare, nachvollziehbare Verfahrensanweisungen für ein bestimmtes Thema.
+
+## Kontext
+- Prozess: [Worum geht es? Personalverwaltung, Sicherheitsvorschriften etc.]
+- Zielgruppe: [Neue Mitarbeiter, Lehrkräfte, Verwaltungspersonal]
+
+## Ablauf
+1. Erfasse alle notwendigen Schritte in logischer Reihenfolge.
+2. Definiere Verantwortlichkeiten und benötigte Ressourcen.
+3. Ergänze wichtige Hinweise oder Warnungen.
+
+## Ergebnis
+- Fertige Verfahrensanweisung in klaren Abschnitten
+- Checkliste oder Diagramm zur schnellen Orientierung
+        </template>
+    </prompt>
+
+    <!-- 16. Übersetzungüberprüfer -->
+    <prompt>
+        <title>Übersetzungüberprüfer</title>
+        <description>Überprüft vorhandene Übersetzungen auf Genauigkeit und sprachliche Qualität</description>
+        <template>
+# Ziel
+Finde eventuelle Fehler oder Unklarheiten in einer vorliegenden Übersetzung und schlage Verbesserungen vor.
+
+## Kontext
+- Quelltext und Übersetzung: [Füge beide Versionen ein]
+- Ziel: [Formelle Dokumente? Interne Mitteilung?]
+- Tonalität: [Freundlich, amtlich, Fachsprache?]
+
+## Ablauf
+1. Vergleiche Original und Übersetzung Satz für Satz.
+2. Achte auf Sinn, Stil und Terminologie.
+3. Markiere unklare Passagen und biete Korrekturvorschläge an.
+
+## Ergebnis
+- Überarbeitete Übersetzung mit Korrekturen
+- Kurzbegründung für jede Änderung
+        </template>
+    </prompt>
+
+    <!-- 17. Vanstaltungsorganisator -->
+    <prompt>
+        <title>Veranstaltungsorganisator</title>
+        <description>Unterstützt bei der Planung und Organisation von Schulveranstaltungen</description>
+        <template>
+# Ziel
+Erstelle einen strukturierten Plan für eine anstehende Schulveranstaltung.
+
+## Kontext
+- Art der Veranstaltung: [Sommerfest, Tag der offenen Tür, Abschlussfeier]
+- Teilnehmer: [Schüler, Eltern, Lehrkräfte, Externe]
+- Ressourcen: [Budget, Räume, Ausstattung]
+
+## Ablauf
+1. Definiere Ziele und Rahmenbedingungen.
+2. Plane Ablauf und Programm.
+3. Verteile Aufgaben, lege Deadlines fest und prüfe den Kostenrahmen.
+
+## Ergebnis
+- Ausführlicher Veranstaltungsplan
+- Liste aller To-dos, Verantwortlichkeiten und Termine
+        </template>
     </prompt>
 </prompts>

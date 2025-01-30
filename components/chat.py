@@ -56,7 +56,9 @@ def handle_message_send(message: str) -> None:
             
         # Webhook URL basierend auf Auswahl
         webhook_selection = st.session_state.webhook_selection.lower()
-        if webhook_selection == "rudi":
+        st.write(f"Debug - Webhook Selection: {webhook_selection}")
+        
+        if "rudi (internes wissen ds malaga)" in webhook_selection:
             webhook_url = WEBHOOK_URL_RUDI
         elif webhook_selection == "perplexity ai suche":
             webhook_url = WEBHOOK_URL_PERPLEXITY
@@ -64,14 +66,24 @@ def handle_message_send(message: str) -> None:
             webhook_url = WEBHOOK_URL_CHATGPT
         elif webhook_selection == "mistral (dsgvo konform)":
             webhook_url = WEBHOOK_URL_MISTRAL
-        else:  # DeepSeek R1 Resoner
+        else:  # DeepSeek R1 Reasoner
             webhook_url = WEBHOOK_URL_DEEPSEEK
+        
+        # Custom headers for the request
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json",
+            "Origin": "https://n8ntb.sts.support",
+            "Referer": "https://n8ntb.sts.support/"
+        }
         
         # Webhook-Anfrage senden
         response = requests.post(
             webhook_url,
             json={"chatInput": message, "sessionId": st.session_state.session_id},
-            headers={"Content-Type": "application/json"}
+            headers=headers,
+            timeout=30
         )
         
         response.raise_for_status()
@@ -99,4 +111,20 @@ def handle_message_send(message: str) -> None:
         st.rerun()
         
     except Exception as e:
-        st.error(f"Fehler: {str(e)}")
+        error_message = f"Fehler: {str(e)}"
+        st.error(error_message)
+        
+        # Only try to access response attributes if it's a requests.exceptions.RequestException
+        if isinstance(e, requests.exceptions.RequestException) and hasattr(e, 'response') and e.response is not None:
+            st.error(f"Response Status: {e.response.status_code}")
+            st.error(f"Response Headers: {e.response.headers}")
+            try:
+                st.error(f"Response Content: {e.response.text}")
+            except:
+                pass
+        
+        # Log specific timeout errors
+        if isinstance(e, requests.exceptions.Timeout):
+            st.error("Die Verbindung zum Server hat zu lange gedauert. Bitte versuchen Sie es später erneut.")
+        elif isinstance(e, requests.exceptions.ConnectionError):
+            st.error("Verbindung zum Server konnte nicht hergestellt werden. Bitte überprüfen Sie Ihre Internetverbindung.")

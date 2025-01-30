@@ -21,7 +21,7 @@ def render_header() -> None:
         webhook_selection = st.selectbox(
             "",
             ["Rudi (internes Wissen DS Malaga)", "Perplexity AI Suche", "OpenAI ChatGPT 4o",
-             "Mistral (DSGVO konform)", "DeepSeek R1 Resoner"],
+             "Mistral (DSGVO konform)", "DeepSeek R1 Reasoner"],
             index=(0 if st.session_state.webhook_selection == "rudi"
                   else 1 if st.session_state.webhook_selection == "perplexity ai suche"
                   else 2 if st.session_state.webhook_selection == "openai chatgpt 4o"
